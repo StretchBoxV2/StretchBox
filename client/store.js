@@ -1,10 +1,9 @@
-import { createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import reducers from './reducers/masterReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import stretchesReducer from './reducers/stretchesReducer';
 
-const store = createStore(
-  reducers,
-  composeWithDevTools(),
-);
-
+export const store = configureStore({
+  reducer: {
+    stretches: stretchesReducer,
+  },
+});
 export default store;

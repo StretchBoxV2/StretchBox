@@ -1,24 +1,43 @@
-import * as types from '../actions/actionTypes';
-import * as actions from '../actions/actions.js';
-import store from '../store.js';
-// import component HERE
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    // Create initial State here
-}
+  //   stretchData: '',
+  currentRegion: '',
+  numberOfStretches: 1,
+  loadingStretch: false,
+  stretches: [],
+};
 
-const stretchesReducer = (state = initialState, action) => {
-    // switch (action.type) {
-    //     case types.//ACTION_NAME
-    //         return {
-    //             ...state,
-    //             // TBD pieces of changed state
-    //         };
-    //     default: {
-    //         return state;
-    //     }
-    // }
-    return state;
-}
+export const stretchesSlice = createSlice({
+  name: 'stretches',
+  initialState,
+  reducers: {
+    setCurrentRegion: (state, action) => {
+      state.currentRegion = action.payload;
+    },
+    setNumberOfStretches: (state, action) => {
+      state.numberOfStretches = action.payload;
+    },
+    setLoadingStretch: (state, action) => {
+      state.loadingStretch = action.payload;
+    },
+    setStretches: (state, action) => {
+      state.stretches = [...state.stretches, action.payload];
+    },
+    clearStretches: (state) => {
+      state.stretches = [];
+    },
+  },
+});
 
-export default stretchesReducer;
+export const {
+  setCurrentRegion,
+  setNumberOfStretches,
+  setLoadingStretch,
+  setStretches,
+  clearStretches,
+} = stretchesSlice.actions;
+
+export default stretchesSlice.reducer;
+
+// {type: setCurrentRegion, action: 'quads'}
