@@ -4,10 +4,13 @@ import '../../stylesheets/header.scss';
 
 const Header = () => {
   return (
-    <div className='headerContainer'>
-      <img src={Logo}/>
-    </div>
-  )
-}
+    <>
+      <div className="headerContainer">
+        <div />
+        <img src={Logo} />
+      </div>
+    </>
+  );
+};
 
-export default Header
+export default Header;
