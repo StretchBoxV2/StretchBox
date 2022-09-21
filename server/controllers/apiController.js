@@ -27,6 +27,7 @@ apiController.getExercises = async (req, res, next) => {
               muscle: key,
               name: resp.rows[i].name,
               instructions: resp.rows[i].instructions,
+              _id: resp.rows[i]._id,
             });
           }
         } else {
@@ -88,15 +89,24 @@ apiController.getFavorites = async (req, res, next) => {
   try {
     const values = [res.locals.user._id];
     const queryText = `
-      SELECT name, instructions, 
+      SELECT *
       FROM favorites
-      JOIN users on users._id=favorites.user_id
-      JOIN stretches on stretches._id=favorites.stretch_id
+      JOIN users on favorites.user_id=users._id
+      JOIN stretches on favorites.stretch_id=stretches._id
       WHERE favorites.user_id=$1
     `;
-    const favorites = await db.query(queryText, values);
+    let favorites = await db.query(queryText, values);
 
-    res.locals.favorites = favorites.rows[0];
+    favorites = favorites.rows.map((row) => {
+      return {
+        name: row.name,
+        instructions: row.instructions,
+        muscle: Object.entries(row).find(([key, value]) => value === 'true')[0],
+      };
+    });
+
+    res.locals.favorites = favorites;
+
     return next();
   } catch (err) {
     return next({
