@@ -1,33 +1,48 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import '../../stylesheets/regionSelector.scss';
 import Body from '../../assets/bodyFrontBack.jpg';
+import {
+  setCurrentRegion,
+  setNumberOfStretches,
+  setLoadingStretch,
+  setStretches,
+} from '../../reducers/stretchesReducer';
 
-const RegionSelector = ({ setStretchData }) => {
-  const [currentRegion, setCurrentRegion] = useState('');
-  const [numberOfStretches, setNumberOfStretches] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+const RegionSelector = () => {
+  // const [currentRegion, setCurrentRegion] = useState('');
+  // const [numberOfStretches, setNumberOfStretches] = useState(1);
+  // const [isLoading, setIsLoading] = useState(false);
+  const { currentRegion, numberOfStretches } = useSelector(
+    (state) => state.stretches
+  );
+  // const numberOfStretches = useSelector(
+  //   (state) => state.stretches.numberOfStretches
+  // );
+  // const isLoading = useSelector((state) => state.stretches.isLoading);
+  const dispatch = useDispatch();
+
   // function that will handle all region button clicks by toggling between inactive and active classes -> this will change the css styling and make it look like the region is highlighted when active
   const handleRegionClick = (e) => {
     if (!currentRegion) {
-      setCurrentRegion(e.currentTarget.id);
+      dispatch(setCurrentRegion(e.currentTarget.id));
       e.currentTarget.classList.toggle('activeButton');
     } else if (currentRegion === e.currentTarget.id) {
-      setCurrentRegion('');
+      dispatch(setCurrentRegion(''));
       e.currentTarget.classList.toggle('activeButton');
     } else {
       // this block of code will only be evaluted if there is already a region selected and highlighted on screen
       const regionToDeselect = document.querySelector('button.activeButton');
       regionToDeselect.classList.toggle('activeButton');
       // after current region is deselected, overwrite state with current region that has just been clicked and highlight current region
-      setCurrentRegion(e.currentTarget.id);
+      dispatch(setCurrentRegion(e.currentTarget.id));
       e.currentTarget.classList.toggle('activeButton');
     }
   };
 
   const queryDb = async (e) => {
     // prevent page from refreshing when button is clicked
-    e.preventDefault();
-    setIsLoading(true);
+    dispatch(setLoadingStretch(true));
     try {
       const response = await fetch('/api', {
         method: 'POST',
@@ -44,12 +59,12 @@ const RegionSelector = ({ setStretchData }) => {
       }
 
       const result = await response.json();
-      setStretchData(result);
+      dispatch(setStretches(result));
       // do something with result here
     } catch (err) {
       console.log(err.message);
     } finally {
-      setIsLoading(false);
+      dispatch(setLoadingStretch(false));
     }
   };
 
@@ -141,7 +156,7 @@ const RegionSelector = ({ setStretchData }) => {
           name="stretchCount"
           id="stretchCount"
           form="submit"
-          onChange={(e) => setNumberOfStretches(e.target.value)}
+          onChange={(e) => dispatch(setNumberOfStretches(e.target.value))}
         >
           <option value="1">1</option>
           <option value="2">2</option>
@@ -154,6 +169,7 @@ const RegionSelector = ({ setStretchData }) => {
       <form id="submit">
         <input
           onClick={(e) => {
+            e.preventDefault();
             if (currentRegion) queryDb(e);
           }}
           type="submit"

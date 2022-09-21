@@ -1,38 +1,33 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import '../../../stylesheets/stretchDisplayWindow.scss';
 import StretchInfo from './stretchInfo';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearStretches } from '../../../reducers/stretchesReducer';
 
-const StretchDisplayWindow = ({ value }) => {
-  const [stretches, setStretches] = useState([]);
-  const [stretchCounter, setStretchCounter] = useState(0);
-  const stretchKey = useRef(0);
-
-  useEffect(() => {
-    console.log(value);
-    let stretchArr = stretches;
-    if (value) {
-      for (let i = 0; i < value.length; i++) {
-        stretchArr.push(
-          <StretchInfo
-            key={stretchCounter}
-            name={value[i].name}
-            muscle={value[i].muscle}
-            instructions={value[i].instructions}
-          />
-        );
-        stretchKey.current++;
-        setStretchCounter(stretchCounter + 1);
-      }
-    }
-    setStretches(stretchArr);
-  }, [value]);
+const StretchDisplayWindow = ({}) => {
+  const { stretches } = useSelector((state) => state.stretches);
+  const dispatch = useDispatch();
 
   return (
     <div className="StretchDisplayWindow">
-      <button className="clear-button" onClick={(e) => setStretches([])}>
+      <button
+        className="clear-button"
+        onClick={() => dispatch(clearStretches())}
+      >
         CLEAR
       </button>
-      <div>{stretches}</div>
+      <div>
+        {stretches.map((stretch, idx) => {
+          return (
+            <StretchInfo
+              key={idx}
+              name={stretch.name}
+              muscle={stretch.muscle}
+              instructions={stretch.instructions}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };
