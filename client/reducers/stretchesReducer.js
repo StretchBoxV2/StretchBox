@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  //   stretchData: '',
   currentRegion: '',
   numberOfStretches: 1,
   loadingStretch: false,

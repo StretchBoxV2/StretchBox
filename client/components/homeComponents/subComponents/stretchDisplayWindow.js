@@ -4,7 +4,7 @@ import StretchInfo from './stretchInfo';
 
 const StretchDisplayWindow = ({ value }) => {
   const [stretches, setStretches] = useState([]);
-  // const [stretchCounter, setStretchCounter] = useState(0);
+  const [stretchCounter, setStretchCounter] = useState(0);
   const stretchKey = useRef(0);
 
   useEffect(() => {
@@ -14,13 +14,14 @@ const StretchDisplayWindow = ({ value }) => {
       for (let i = 0; i < value.length; i++) {
         stretchArr.push(
           <StretchInfo
-            key={stretchKey.current}
+            key={stretchCounter}
             name={value[i].name}
             muscle={value[i].muscle}
             instructions={value[i].instructions}
           />
         );
         stretchKey.current++;
+        setStretchCounter(stretchCounter + 1);
       }
     }
     setStretches(stretchArr);
