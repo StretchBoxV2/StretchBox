@@ -14,7 +14,8 @@ apiController.getExercises = async (req, res, next) => {
     // grab the current key in keys array, and use that to get the value in req.body for that key
     let key = keysArr[i];
     let value = req.body[key];
-    let text = `SELECT * FROM stretches WHERE ${key} = 'true'`;
+
+    let text = `SELECT * FROM stretches WHERE 'true' in (neck, abdominals, abductors, adductors, biceps, calves, forearms, glutes, hamstrings, lats, lower_back, middle_back, quadriceps, traps, triceps)`;
     // query the database for that muscle for that # of stretches
     await db
       .query(text)
@@ -96,7 +97,7 @@ apiController.getFavorites = async (req, res, next) => {
       WHERE favorites.user_id=$1
     `;
     let favorites = await db.query(queryText, values);
-
+    console.log(favorites);
     favorites = favorites.rows.map((row) => {
       return {
         name: row.name,
