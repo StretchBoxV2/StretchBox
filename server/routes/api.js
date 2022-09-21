@@ -23,4 +23,13 @@ router.post(
   }
 );
 
+router.get(
+  '/favorites',
+  jwtController.verify,
+  apiController.getFavorites,
+  (req, res) => {
+    res.status(200).json(res.locals.favorites);
+  }
+);
+
 module.exports = router;
