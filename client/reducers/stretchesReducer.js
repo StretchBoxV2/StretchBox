@@ -21,7 +21,7 @@ export const stretchesSlice = createSlice({
       state.loadingStretch = action.payload;
     },
     setStretches: (state, action) => {
-      state.stretches = [...state.stretches, action.payload];
+      state.stretches = [...state.stretches, ...action.payload];
     },
     clearStretches: (state) => {
       state.stretches = [];
