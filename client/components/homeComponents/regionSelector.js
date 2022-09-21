@@ -10,16 +10,9 @@ import {
 } from '../../reducers/stretchesReducer';
 
 const RegionSelector = () => {
-  // const [currentRegion, setCurrentRegion] = useState('');
-  // const [numberOfStretches, setNumberOfStretches] = useState(1);
-  // const [isLoading, setIsLoading] = useState(false);
   const { currentRegion, numberOfStretches } = useSelector(
     (state) => state.stretches
   );
-  // const numberOfStretches = useSelector(
-  //   (state) => state.stretches.numberOfStretches
-  // );
-  // const isLoading = useSelector((state) => state.stretches.isLoading);
   const dispatch = useDispatch();
 
   // function that will handle all region button clicks by toggling between inactive and active classes -> this will change the css styling and make it look like the region is highlighted when active

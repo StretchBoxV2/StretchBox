@@ -6,13 +6,12 @@ import Routines from './homeComponents/routines';
 import '../stylesheets/home.scss';
 
 const Home = () => {
-  const [stretchData, setStretchData] = useState('');
   return (
     <>
       <div id="main-flex">
         <div className="dynamic-direction">
-          <RegionSelector setStretchData={setStretchData} />
-          <StretchDisplay value={stretchData} />
+          <RegionSelector />
+          <StretchDisplay />
         </div>
         {/* <div class="dynamic-direction">
           <SavedStretches />
