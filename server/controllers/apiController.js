@@ -56,7 +56,7 @@ apiController.getExercises = async (req, res, next) => {
         console.log('create stretch array error: ' + err);
         return next({
           log: 'create stretch array error',
-          message: { er: 'create stretch error' },
+          message: { err: 'create stretch error' },
         });
       });
   }

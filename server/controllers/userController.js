@@ -34,10 +34,9 @@ userController.createUser = async (req, res, next) => {
     return next();
   } catch (e) {
     return next({
-      log: null,
+      log: 'userController.createUser ERROR: ' + err,
       status: 500,
-      message:
-        'An error occured creating the user. This username may already exist!',
+      message: { err: 'ERROR: Error creating user' },
     });
   }
 };
@@ -51,6 +50,15 @@ userController.verifyUser = async (req, res, next) => {
       WHERE username=$1;
     `;
     const user = await db.query(userQuery, values);
+    console.log(user);
+    if (!user.rows.length)
+      return next({
+        log: null,
+        status: 500,
+        message: {
+          err: 'Invalid Username or password',
+        },
+      });
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.rows[0].password
@@ -67,7 +75,7 @@ userController.verifyUser = async (req, res, next) => {
       log: null,
       status: 500,
       message: {
-        err: 'ERROR: Invalid Username or password',
+        err: 'Invalid Username or password',
       },
     });
   } catch (err) {

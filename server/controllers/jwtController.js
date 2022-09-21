@@ -34,9 +34,9 @@ jwtController.verify = (req, res, next) => {
     return next();
   } catch (err) {
     next({
-      log: null,
-      status: 401,
-      message: 'Invalid JWT',
+      log: 'jwtController.verify ERROR: ' + err,
+      status: 500,
+      message: { err: 'ERROR: Error verifying jwt cookie' },
     });
   }
 };
