@@ -1,36 +1,16 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const cookieParser = require('cookie-parser');
+
+const authRouter = require('./routes/auth');
+const apiRouter = require('./routes/api');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
-const apiController = require('./controllers/apiController');
-const userController = require('./controllers/userController');
-const jwtController = require('./controllers/jwtController');
-
-app.post(
-  '/register',
-  userController.createUser,
-  jwtController.write,
-  (req, res) => {
-    res.status(200).json(res.locals.user);
-  }
-);
-
-app.post(
-  '/login',
-  userController.verifyUser,
-  jwtController.write,
-  (req, res) => {
-    res.status(200).json(res.locals.user);
-  }
-);
-
-app.post('/api', apiController.getExercises, (req, res) => {
-  // console.log('server res.locals.stretches', res.locals.stretches);
-  res.status(200).json(res.locals.stretches);
-});
+app.use('/auth', authRouter);
+app.use('/api', apiRouter);
 
 app.get('/', (req, res) => {
   res.sendStatus(200);
@@ -51,6 +31,9 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(port, function () {
-  console.log('App listening on port: ' + port);
+const PORT = 3000;
+app.listen(PORT, function () {
+  console.log('App listening on port: ' + PORT);
 });
+
+module.exports = app;
