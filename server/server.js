@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 
-const authRouter = require('./routes/auth');
-const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth.js');
+const apiRouter = require('./routes/api.js');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

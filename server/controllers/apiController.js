@@ -1,5 +1,4 @@
-const request = require('request');
-const database = require('../models/model');
+const db = require('../models/model');
 
 const apiController = {};
 
@@ -17,7 +16,7 @@ apiController.getExercises = async (req, res, next) => {
     let value = req.body[key];
     let text = `SELECT * FROM stretches WHERE ${key} = 'true'`;
     // query the database for that muscle for that # of stretches
-    await database
+    await db
       .query(text)
       .then((resp) => {
         // if the value is greater or equal to resp.rows.length
@@ -41,6 +40,7 @@ apiController.getExercises = async (req, res, next) => {
               muscle: key,
               name: resp.rows[index].name,
               instructions: resp.rows[index].instructions,
+              _id: resp.rows[index]._id,
             };
             // save the returned stretch objs in stretchArr
             stretchArr.push(stretch);
@@ -62,6 +62,49 @@ apiController.getExercises = async (req, res, next) => {
   res.locals.stretches = stretchArr;
   // console.log('final stretchArr', stretchArr);
   next();
+};
+
+apiController.addFavorites = async (req, res, next) => {
+  try {
+    const values = [res.locals.user._id, req.body.stretch_id];
+    const queryText = `
+      INSERT INTO favorites (user_id, stretch_id)
+      VALUES($1, $2)
+    `;
+
+    db.query(queryText, values);
+
+    return next();
+  } catch (err) {
+    return next({
+      log: 'apiController.addFavorites ERROR: ' + err,
+      status: 500,
+      message: { err: 'ERROR: Error adding favorite stretch' },
+    });
+  }
+};
+
+apiController.getFavorites = async (req, res, next) => {
+  try {
+    const values = [res.locals.user._id];
+    const queryText = `
+      SELECT name, instructions, 
+      FROM favorites
+      JOIN users on users._id=favorites.user_id
+      JOIN stretches on stretches._id=favorites.stretch_id
+      WHERE favorites.user_id=$1
+    `;
+    const favorites = await db.query(queryText, values);
+
+    res.locals.favorites = favorites.rows[0];
+    return next();
+  } catch (err) {
+    return next({
+      log: 'apiController.getFavorites ERROR: ' + err,
+      status: 500,
+      message: { err: 'ERROR: Error getting favorite stretches' },
+    });
+  }
 };
 
 module.exports = apiController;

@@ -25,18 +25,18 @@ CREATE TABLE stretches
 \COPY stretches FROM '/Users/jigar/Downloads/stretches.csv' CSV HEADER DELIMITER '@';
 
 
-CREATE TABLE users 
+CREATE TABLE public.users 
 (
-  _id SERIAL PRIMARY KEY,
-  username varchar(255) UNIQUE,
-  password varchar(255)
+  _id SERIAL PRIMARY KEY NOT NULL,
+  username varchar(255) UNIQUE NOT NULL,
+  password varchar(255) NOT NULL
 );
 
-
-CREATE TABLE favorites
-(
-  _id SERIAL PRIMARY KEY,
-  FOREIGN KEY (user) REFERENCES users(_id)
-  FOREIGN KEY (stretches) REFERENCES stretches(_id)
+CREATE TABLE  public.favorites (
+	_id SERIAL PRIMARY KEY NOT NULL,
+  user_id int NOT NULL,
+  stretch_id int NOT NULL,
+	FOREIGN KEY ("user_id") REFERENCES public.users("_id"),
+	FOREIGN KEY ("stretch_id") REFERENCES  public.stretches("_id")
 );
 
