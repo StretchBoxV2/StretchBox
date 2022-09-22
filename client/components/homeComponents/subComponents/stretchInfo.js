@@ -5,6 +5,7 @@ import { addFavorite, removeFavorite } from '../../../reducers/userReducer';
 
 const StretchInfo = (props) => {
   const { favorites, user } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const addStretchToFavorites = (id) => {
     fetch('/api/favorites', {
@@ -13,6 +14,16 @@ const StretchInfo = (props) => {
       body: JSON.stringify({
         stretch_id: id,
       }),
+    }).then((res) => {
+      if (res.status === 200)
+        dispatch(
+          addFavorite({
+            _id: id,
+            muscle: props.muscle,
+            name: props.name,
+            instructions: props.instructions,
+          })
+        );
     });
   };
   const removeStretchFromFavorites = (id) => {
@@ -22,6 +33,8 @@ const StretchInfo = (props) => {
       body: JSON.stringify({
         stretch_id: id,
       }),
+    }).then((res) => {
+      if (res.status === 204) dispatch(removeFavorite(id));
     });
   };
 
@@ -31,6 +44,7 @@ const StretchInfo = (props) => {
         (favorites.find((stretch) => stretch._id === props._id) ? (
           // {/* filled heart */}
           <svg
+            onClick={() => removeStretchFromFavorites(props._id)}
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -45,6 +59,7 @@ const StretchInfo = (props) => {
           </svg>
         ) : (
           <svg
+            onClick={() => addStretchToFavorites(props._id)}
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
