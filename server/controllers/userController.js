@@ -32,7 +32,7 @@ userController.createUser = async (req, res, next) => {
       username: user.rows[0].username,
     };
     return next();
-  } catch (e) {
+  } catch (err) {
     return next({
       log: 'userController.createUser ERROR: ' + err,
       status: 500,
@@ -91,6 +91,24 @@ userController.verifyUser = async (req, res, next) => {
       log: 'userController.verifyUser ERROR: ' + err,
       status: 500,
       message: { err: 'ERROR: Error verifying user' },
+    });
+  }
+};
+
+userController.deleteUser = async (req, res, next) => {
+  try {
+    const values = [res.locals._id];
+    const userQuery = `
+      DELETE FROM users
+      WHERE users._id=$1
+    `;
+    await db.query(userQuery, values);
+    return next();
+  } catch (err) {
+    return next({
+      log: 'userController.deleteUser ERROR: ' + err,
+      status: 500,
+      message: { err: 'ERROR: Error deleting user' },
     });
   }
 };
