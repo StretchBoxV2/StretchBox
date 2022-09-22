@@ -28,7 +28,7 @@ apiController.getExercises = async (req, res, next) => {
               muscle: key,
               name: resp.rows[i].name,
               instructions: resp.rows[i].instructions,
-              stretch_id: resp.rows[i].stretch_id,
+              _id: resp.rows[i].stretch_id,
             });
           }
         } else {
@@ -42,7 +42,7 @@ apiController.getExercises = async (req, res, next) => {
               muscle: key,
               name: resp.rows[index].name,
               instructions: resp.rows[index].instructions,
-              stretch_id: resp.rows[index].stretch_id,
+              _id: resp.rows[index].stretch_id,
             };
             // save the returned stretch objs in stretchArr
             stretchArr.push(stretch);
@@ -106,7 +106,7 @@ apiController.getFavorites = async (req, res, next) => {
     let favorites = await db.query(queryText, values);
     favorites = favorites.rows.map((row) => {
       return {
-        _id: row._id,
+        _id: row.stretch_id,
         name: row.name,
         instructions: row.instructions,
         muscle: Object.entries(row).find(([key, value]) => value === 'true')[0],
