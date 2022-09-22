@@ -74,7 +74,14 @@ apiController.addFavorites = async (req, res, next) => {
       VALUES($1, $2)
     `;
 
-    db.query(queryText, values);
+    let insert = await db.query(queryText, values);
+
+    if (!insert)
+      return next({
+        log: 'apiController.addFavorites ERROR: ' + err,
+        status: 500,
+        message: { err: 'ERROR: Error adding favorite stretch' },
+      });
 
     return next();
   } catch (err) {
