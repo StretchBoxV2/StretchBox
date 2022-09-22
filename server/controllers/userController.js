@@ -53,7 +53,7 @@ userController.verifyUser = async (req, res, next) => {
     if (!user.rows.length)
       return next({
         log: null,
-        status: 500,
+        status: 400,
         message: {
           err: 'Invalid Username or password',
         },
@@ -69,14 +69,14 @@ userController.verifyUser = async (req, res, next) => {
         username: user.rows[0].username,
       };
       return next();
-    }
-    return next({
-      log: null,
-      status: 500,
-      message: {
-        err: 'Invalid Username or password',
-      },
-    });
+    } else
+      return next({
+        log: null,
+        status: 400,
+        message: {
+          err: 'Invalid Username or password',
+        },
+      });
   } catch (err) {
     return next({
       log: 'userController.verifyUser ERROR: ' + err,
