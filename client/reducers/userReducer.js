@@ -4,6 +4,7 @@ const initialState = {
   user: null,
   error: null,
   favorites: [],
+  isViewingFavorites: false,
 };
 
 export const userSlice = createSlice({
@@ -14,8 +15,7 @@ export const userSlice = createSlice({
       state.user = action.payload;
     },
     clearUser: (state) => {
-      state.user = null,
-      state.favorites = []
+      (state.user = null), (state.favorites = []);
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -27,10 +27,23 @@ export const userSlice = createSlice({
       state.favorites = [...state.favorites, action.payload];
     },
     removeFavorite: (state, action) => {
-      state.favorites = state.favorites.filter(stretch => stretch._id !== action.payload);
-    }
+      state.favorites = state.favorites.filter(
+        (stretch) => stretch._id !== action.payload
+      );
+    },
+    toggleViewingFavorites: (state) => {
+      state.isViewingFavorites = !state.isViewingFavorites;
+    },
   },
 });
 
-export const { setUser, clearUser, setError, setFavorites, addFavorite, removeFavorite } = userSlice.actions;
+export const {
+  setUser,
+  clearUser,
+  setError,
+  setFavorites,
+  addFavorite,
+  removeFavorite,
+  toggleViewingFavorites,
+} = userSlice.actions;
 export default userSlice.reducer;
