@@ -54,12 +54,23 @@ describe('Auth', () => {
     });
   });
 
-  describe('Registration route testing', () => {
+  xdescribe('Registration route testing', () => {
+    afterEach(() => req.delete('/auth/register'));
     it('on successful registration should send 200 status', async () => {
       await req
         .post('/auth/register')
         .send({ username: 'jigar', password: '123' })
         .expect(200);
+    });
+    it('should specify json as content type in the http header', async () => {
+      await req
+        .post('/auth/register')
+        .send({ username: 'jigar', password: '123' })
+        .then((res) => {
+          expect(res.headers['content-type']).toEqual(
+            expect.stringContaining('json')
+          );
+        });
     });
     it('on successful register should return id and username in response object', async () => {
       await req

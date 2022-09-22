@@ -97,10 +97,10 @@ userController.verifyUser = async (req, res, next) => {
 
 userController.deleteUser = async (req, res, next) => {
   try {
-    const values = [res.locals._id];
+    const values = [res.locals.user.username];
     const userQuery = `
       DELETE FROM users
-      WHERE users._id=$1
+      WHERE username=$1
     `;
     await db.query(userQuery, values);
     return next();
