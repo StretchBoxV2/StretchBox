@@ -28,7 +28,7 @@ apiController.getExercises = async (req, res, next) => {
               muscle: key,
               name: resp.rows[i].name,
               instructions: resp.rows[i].instructions,
-              _id: resp.rows[i]._id,
+              stretch_id: resp.rows[i].stretch_id,
             });
           }
         } else {
@@ -42,7 +42,7 @@ apiController.getExercises = async (req, res, next) => {
               muscle: key,
               name: resp.rows[index].name,
               instructions: resp.rows[index].instructions,
-              _id: resp.rows[index]._id,
+              stretch_id: resp.rows[index].stretch_id,
             };
             // save the returned stretch objs in stretchArr
             stretchArr.push(stretch);
