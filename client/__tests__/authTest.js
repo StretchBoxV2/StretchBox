@@ -1,47 +1,28 @@
-import request from 'supertest';
-import makeApp from './app.js';
-import { jest } from '@jest/globals';
+const server = require('../../server/server.js');
+const request = require('supertest');
 
-import userController from '../../server/controllers/userController';
-import jwtController from '../../server/controllers/jwtController';
+const LOCAL_HOST = 'http://localhost:3000';
+const req = request(LOCAL_HOST);
 
-describe('auth unit tests', () => {
-  describe('userController unit tests', () => {
-    describe('createUser unit tests', () => {
-      it('input has a username field', () => {
-        const user = { password: password };
-        expect(userController.createUser(user));
-      });
+const user = { username: 'admin', password: '123' };
+
+describe('auth testing', () => {
+  afterAll(() => server.close());
+  describe('login testing', () => {
+    it('on successful login should send 200 status', async () => {
+      await req.post('/auth/login').send(user).expect(200);
+    });
+    it('on failed login should send 400 status', async () => {
+      await req
+        .post('/auth/login')
+        .send({ username: 'admin', password: 'password' })
+        .expect(500);
+    });
+    // it('on successful login sets a jwt cookie', () => {
+    //   req.post('/auth/login').send({ username: 'admin', password: 'password' });
+    // });
+    it('on login user does not obtain a cookie', () => {
+      req.post('auth/login').send().expect();
     });
   });
 });
-
-// it('input has a username field', () => {
-//     const createUser = jest.fn(); // jest.fn() tests the interaction between the server and the datatbase. Keeps track of what's passed into the function every time it's called.
-//     const app = makeApp({createUser}); // passing jest.fn() into app inside an object. App expects a database object that contains a createUser function.
-
-//     describe("Post /users", () => {
-
-//         beforeEach(() => {
-//             createUser.mockReset() // Resets all information stored in the mock, including any initial implementation and mock name given. This is useful when you want to completely restore a mock back to its initial state.
-//         })
-
-//     describe("when passed a username and password", () => {
-//         test("should save the username and password in the database", () => {
-
-//             const body = {
-//                 username: "username",
-//                 password: "password"
-//             }
-
-//             const response = await request(app).post("/users").send(body)
-//             expect(createUser.mock.calls[0][0].toBe(body.username)) // represents the data that gets passed in the first time it's called
-//             expect(createUser.mock.calls[0][1].toBe(body.password)) // represents the password
-
-//         })
-//     })
-
-//     })
-//   });
-
-// Need to test auth (done via login and registration) and test our cookie
