@@ -15,7 +15,9 @@ export const userSlice = createSlice({
       state.user = action.payload;
     },
     clearUser: (state) => {
-      (state.user = null), (state.favorites = []);
+      (state.user = null),
+        (state.favorites = []),
+        (state.isViewingFavorites = false);
     },
     setError: (state, action) => {
       state.error = action.payload;

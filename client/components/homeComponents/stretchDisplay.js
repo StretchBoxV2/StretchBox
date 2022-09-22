@@ -6,7 +6,7 @@ import StretchDisplayWindow from './subComponents/stretchDisplayWindow';
 // import savedStretches from '.'
 
 const StretchDisplay = () => {
-  const { isViewingFavorites } = useSelector((state) => state.user);
+  const { isViewingFavorites, user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   return (
     <div className="stretchDisplay">
@@ -20,9 +20,11 @@ const StretchDisplay = () => {
       ) : (
         <>
           <h3>Display For Selected Stretches</h3>
-          <button onClick={() => dispatch(toggleViewingFavorites())}>
-            View Favorite Stretches
-          </button>
+          {user && (
+            <button onClick={() => dispatch(toggleViewingFavorites())}>
+              View Favorite Stretches
+            </button>
+          )}
         </>
       )}
 
