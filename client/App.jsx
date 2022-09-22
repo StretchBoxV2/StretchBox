@@ -5,25 +5,24 @@ import Home from './components/home';
 import Login from './components/login';
 import { Provider, useDispatch } from 'react-redux';
 import Header from './components/homeComponents/header';
-import { setUser, clearUser, setFavorites } from './reducers/userReducer'
+import { setUser, clearUser, setFavorites } from './reducers/userReducer';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     fetch('/auth/login')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
+      .then((res) => res.json())
+      .then((data) => {
         if (data.username) {
-          dispatch(setUser({ username: data.username, _id: data._id }))
-          dispatch(setFavorites(data.favorites))
+          dispatch(setUser({ username: data.username, _id: data._id }));
+          dispatch(setFavorites(data.favorites));
         } else {
-          dispatch(clearUser())
+          dispatch(clearUser());
         }
       })
-      .catch((err) => console.log(err))
-  }, [])
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <>

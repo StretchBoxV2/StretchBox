@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { setUser, setError } from '../reducers/userReducer';
+import { setUser, setError, setFavorites } from '../reducers/userReducer';
 
 const Login = ({ register }) => {
   const dispatch = useDispatch();
   const { user, error } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) navigate('/');
-  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +21,15 @@ const Login = ({ register }) => {
         }),
       });
       const data = await res.json();
-      if (data.username) dispatch(setUser({username: data.username, _id: data._id}));
+      if (data.username) {
+        dispatch(setUser({ username: data.username, _id: data._id }));
+        fetch('/api/favorites')
+          .then((res) => res.json())
+          .then((data) => {
+            dispatch(setFavorites(data));
+            navigate('/');
+          });
+      }
     } catch (err) {
       console.log(err);
       dispatch(setError(true));
