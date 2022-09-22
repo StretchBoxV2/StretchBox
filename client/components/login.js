@@ -25,7 +25,7 @@ const Login = ({ register }) => {
         }),
       });
       const data = await res.json();
-      if (data.username) dispatch(setUser(data.username));
+      if (data.username) dispatch(setUser({username: data.username, _id: data._id}));
     } catch (err) {
       console.log(err);
       dispatch(setError(true));
