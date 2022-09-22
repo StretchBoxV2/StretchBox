@@ -117,4 +117,9 @@ apiController.getFavorites = async (req, res, next) => {
   }
 };
 
+apiController.deleteFavorites = async (req, res, next) => {
+  try {
+  } catch (err) {}
+};
+
 module.exports = apiController;
