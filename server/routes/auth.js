@@ -28,6 +28,7 @@ router.get(
   jwtController.verify,
   apiController.getFavorites,
   (req, res) => {
+    res.locals.user.favorites = res.locals.favorites;
     res.status(200).json(res.locals.user);
   }
 );
