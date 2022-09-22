@@ -5,7 +5,7 @@ import Home from './components/home';
 import Login from './components/login';
 import { Provider, useDispatch } from 'react-redux';
 import Header from './components/homeComponents/header';
-import { setUser } from './reducers/userReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -13,8 +13,13 @@ const App = () => {
   useEffect(() => {
     fetch('/auth/login')
       .then(res => res.json())
-      .then(data => dispatch(setUser(data)))
-      .catch(() => null)
+      .then(data => {
+        console.log(data)
+        data.username ?
+          dispatch(setUser(data)) :
+          dispatch(clearUser())
+      })
+      .catch((err) => console.log(err))
   }, [])
 
   return (
