@@ -4,12 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addFavorite, removeFavorite } from '../../../reducers/userReducer';
 
 
-const StretchInfo = value => {
+const StretchInfo = props => {
   const favorites = useSelector(state => state.user.favorites)
-  console.log(value)
+  console.log(props)
   return (
     <div className="stretch-info">
-      {favorites.includes(stretch => stretch._id === value._id) ?
+      {favorites.includes(stretch => stretch._id === props._id) ?
         // {/* filled heart */}
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-heart-fill" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z" />
@@ -19,11 +19,11 @@ const StretchInfo = value => {
         </svg>
       }
       <div className="name-muscle">
-        <p><strong>Name:</strong> {value.name}</p>
-        <p><strong>Muscle:</strong> {value.muscle}</p>
+        <p><strong>Name:</strong> {props.name}</p>
+        <p><strong>Muscle:</strong> {props.muscle}</p>
       </div>
       <div className="instructions">
-        <p><strong>Instructions:</strong> {value.instructions}</p>
+        <p><strong>Instructions:</strong> {props.instructions}</p>
       </div>
     </div>
   )

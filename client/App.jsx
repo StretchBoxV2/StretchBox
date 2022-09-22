@@ -5,7 +5,7 @@ import Home from './components/home';
 import Login from './components/login';
 import { Provider, useDispatch } from 'react-redux';
 import Header from './components/homeComponents/header';
-import { setUser, clearUser } from './reducers/userReducer'
+import { setUser, clearUser, setFavorites } from './reducers/userReducer'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -15,9 +15,12 @@ const App = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        data.username ?
-          dispatch(setUser(data)) :
+        if (data.username) {
+          dispatch(setUser({ username: data.username, _id: data._id }))
+          dispatch(setFavorites(data.favorites))
+        } else {
           dispatch(clearUser())
+        }
       })
       .catch((err) => console.log(err))
   }, [])
