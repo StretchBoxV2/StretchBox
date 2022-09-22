@@ -40,3 +40,6 @@ CREATE TABLE  public.favorites (
 	FOREIGN KEY ("stretch_id") REFERENCES  public.stretches("stretch_id")
 );
 
+ALTER TABLE public.favorites
+ADD CONSTRAINT user_favorite_stretches UNIQUE (user_id, stretch_id);
+
