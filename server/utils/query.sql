@@ -9,6 +9,7 @@ CREATE TABLE stretches
   adductors varchar(255),
   biceps varchar(255),
   calves varchar(255),
+  chest varchar(255),
   forearms varchar(255),
   glutes varchar(255),
   hamstrings varchar(255),
@@ -18,8 +19,7 @@ CREATE TABLE stretches
   quadriceps varchar(255),
   traps varchar(255),
   triceps varchar(255),
-  stretch_id varchar(255),
-   _id SERIAL PRIMARY KEY
+  stretch_id varchar(255) PRIMARY KEY
 );
 
 \COPY stretches FROM '/Users/jigar/Downloads/stretches.csv' CSV HEADER DELIMITER '@';
@@ -35,8 +35,8 @@ CREATE TABLE public.users
 CREATE TABLE  public.favorites (
 	_id SERIAL PRIMARY KEY NOT NULL,
   user_id int NOT NULL,
-  stretch_id int NOT NULL,
+  stretch_id varchar(255) NOT NULL,
 	FOREIGN KEY ("user_id") REFERENCES public.users("_id"),
-	FOREIGN KEY ("stretch_id") REFERENCES  public.stretches("_id")
+	FOREIGN KEY ("stretch_id") REFERENCES  public.stretches("stretch_id")
 );
 
