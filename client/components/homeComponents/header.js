@@ -23,16 +23,16 @@ const Header = () => {
   return (
     <>
       <div className="headerContainer">
-        <div />
-        <div>
+          <div className="spacer"></div>
           <img src={Logo} />
-        </div>
-        <div>{user ? 
-          <>
-          <>Hello, {user.username}</>
-          <button onClick={handleLogout}>Log out</button>
-          </>
-          : <button onClick={() => navigate('/login')}>Sign in</button> }</div>
+          <div className="spacer">
+            {user ? 
+            <>
+            <>Hello, {user.username}</>
+            <button className="login-logout" onClick={handleLogout}>Log out</button>
+            </>
+            : <button className="login-logout" onClick={() => navigate('/login')}>Sign in</button> }
+          </div>
       </div>
     </>
   );
