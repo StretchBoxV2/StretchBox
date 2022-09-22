@@ -32,10 +32,8 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = 3000;
-app.listen(PORT, function () {
+module.exports = app.listen(PORT, function () {
   console.log('App listening on port: ' + PORT);
 });
 
-module.exports = app;
-
-// [{abs: null, biceps: true, triceps: null}]
+// module.exports = app;
