@@ -71,7 +71,7 @@ const StretchInfo = (props) => {
           </svg>
         ))}
       <div className="name-muscle">
-        <p>(Debug) ID: {props._id}</p>
+        {/* <p>(Debug) ID: {props._id}</p> */}
         <p>
           <strong>Name:</strong> {props.name}
         </p>
