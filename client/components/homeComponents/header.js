@@ -29,9 +29,9 @@ const Header = () => {
             {user ? 
             <>
             <>Hello, {user.username}</>
-            <button id="logout" onClick={handleLogout}>Log out</button>
+            <button className="login-logout" onClick={handleLogout}>Log out</button>
             </>
-            : <button onClick={() => navigate('/login')}>Sign in</button> }
+            : <button className="login-logout" onClick={() => navigate('/login')}>Sign in</button> }
           </div>
       </div>
     </>
