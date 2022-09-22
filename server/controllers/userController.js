@@ -50,7 +50,6 @@ userController.verifyUser = async (req, res, next) => {
       WHERE username=$1;
     `;
     const user = await db.query(userQuery, values);
-    console.log(user);
     if (!user.rows.length)
       return next({
         log: null,

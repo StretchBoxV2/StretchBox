@@ -97,7 +97,6 @@ apiController.getFavorites = async (req, res, next) => {
       WHERE favorites.user_id=$1
     `;
     let favorites = await db.query(queryText, values);
-    console.log(favorites);
     favorites = favorites.rows.map((row) => {
       return {
         name: row.name,
