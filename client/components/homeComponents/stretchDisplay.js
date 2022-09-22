@@ -1,13 +1,14 @@
 import React from 'react';
 import '../../stylesheets/stretchDisplay.scss';
 import StretchDisplayWindow from  './subComponents/stretchDisplayWindow';
+// import savedStretches from '.'
 
-const StretchDisplay = ({value}) => {
+const StretchDisplay = () => {
   return (
 
     <div className="stretchDisplay">
-      <h3>Display For Selected Stretches</h3>
-      <StretchDisplayWindow value={value}/>
+        <h3>Display For Selected Stretches</h3>
+        <StretchDisplayWindow />
     </div>
   )
 }

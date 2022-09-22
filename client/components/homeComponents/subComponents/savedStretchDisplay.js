@@ -5,7 +5,6 @@ const SavedStretchDisplay = () => {
   return (
     <div className='displayWindow'>
         Saved stretches will be rendered here
-
         
     </div>
   )

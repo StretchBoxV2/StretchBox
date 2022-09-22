@@ -3,7 +3,7 @@ import Logo from '../../assets/brand-logo.png';
 import '../../stylesheets/header.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUser } from '../../reducers/userReducer';
+import { clearUser } from '../../reducers/userReducer';
 
 const Header = () => {
   const { user } = useSelector((state) => state.user);
@@ -16,7 +16,7 @@ const Header = () => {
     })
     .then(res => {
       if (res.status === 204) {
-        dispatch(setUser(null)) 
+        dispatch(clearUser(null)) 
         navigate('/')}
     })
   }
