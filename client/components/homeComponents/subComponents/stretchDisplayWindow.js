@@ -21,6 +21,7 @@ const StretchDisplayWindow = ({}) => {
           return (
             <StretchInfo
               key={idx}
+              _id={stretch._id}
               name={stretch.name}
               muscle={stretch.muscle}
               instructions={stretch.instructions}
