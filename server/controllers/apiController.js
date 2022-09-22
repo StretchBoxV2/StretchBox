@@ -15,7 +15,7 @@ apiController.getExercises = async (req, res, next) => {
     let key = keysArr[i];
     let value = req.body[key];
 
-    let text = `SELECT * FROM stretches WHERE 'true' in (neck, abdominals, abductors, adductors, biceps, calves, forearms, glutes, hamstrings, lats, lower_back, middle_back, quadriceps, traps, triceps)`;
+    let text = `SELECT * FROM stretches WHERE ${key}=true`;
     // query the database for that muscle for that # of stretches
     await db
       .query(text)
