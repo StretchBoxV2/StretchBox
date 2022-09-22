@@ -16,6 +16,15 @@ describe('Auth', () => {
         .send({ username: 'admin', password: '123' })
         .expect(200);
     });
+    it('on successful login should return id and username in res.locals.user', async () => {
+      await req
+        .post('/auth/login')
+        .send({ username: 'admin', password: '123' })
+        .then((res) => {
+          expect(res.body).toHaveProperty('_id');
+          expect(res.body).toHaveProperty('username');
+        });
+    });
     it('on failed login should send 400 status', async () => {
       await req
         .post('/auth/login')

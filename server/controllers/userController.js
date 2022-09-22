@@ -58,6 +58,15 @@ userController.verifyUser = async (req, res, next) => {
           err: 'Invalid Username or password',
         },
       });
+    if (!req.body.password) {
+      return next({
+        log: null,
+        status: 400,
+        message: {
+          err: 'Invalid Username or password',
+        },
+      });
+    }
     const validPassword = await bcrypt.compare(
       req.body.password,
       user.rows[0].password
@@ -69,14 +78,14 @@ userController.verifyUser = async (req, res, next) => {
         username: user.rows[0].username,
       };
       return next();
-    } else
-      return next({
-        log: null,
-        status: 400,
-        message: {
-          err: 'Invalid Username or password',
-        },
-      });
+    }
+    return next({
+      log: null,
+      status: 400,
+      message: {
+        err: 'Invalid Username or password',
+      },
+    });
   } catch (err) {
     return next({
       log: 'userController.verifyUser ERROR: ' + err,
