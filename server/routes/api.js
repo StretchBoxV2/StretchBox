@@ -32,4 +32,13 @@ router.get(
   }
 );
 
+router.delete(
+  '/favorites',
+  jwtController.verify,
+  apiController.deleteFavorites,
+  (req, res) => {
+    res.sendStatus(204);
+  }
+);
+
 module.exports = router;
