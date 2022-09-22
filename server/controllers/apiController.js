@@ -15,7 +15,7 @@ apiController.getExercises = async (req, res, next) => {
     let key = keysArr[i];
     let value = req.body[key];
 
-    let text = `SELECT * FROM stretches WHERE ${key}="true"`;
+    let text = `SELECT * FROM stretches WHERE ${key}='true'`;
     // query the database for that muscle for that # of stretches
     await db
       .query(text)
@@ -100,7 +100,7 @@ apiController.getFavorites = async (req, res, next) => {
       SELECT *
       FROM favorites
       JOIN users on favorites.user_id=users._id
-      JOIN stretches on favorites.stretch_id=stretches._id
+      JOIN stretches on favorites.stretch_id=stretches.stretch_id
       WHERE favorites.user_id=$1
     `;
     let favorites = await db.query(queryText, values);

@@ -19,7 +19,7 @@ CREATE TABLE stretches
   quadriceps varchar(255),
   traps varchar(255),
   triceps varchar(255),
-  stretch_id varchar(255) PRIMARY KEY
+  stretch_id varchar(255)
 );
 
 \COPY stretches FROM '/Users/jigar/Downloads/stretches.csv' CSV HEADER DELIMITER '@';
