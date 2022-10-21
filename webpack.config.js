@@ -15,17 +15,21 @@ module.exports = {
   devtool: 'eval-source-map',
   mode: 'development',
   devServer: {
-
     hot: true,
 
     proxy: {
-      '*': {
+      '/auth': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/api': {
         target: 'http://localhost:3000/',
         secure: false,
       },
     },
+    historyApiFallback: true,
   },
-  
+
   module: {
     rules: [
       {
@@ -43,8 +47,8 @@ module.exports = {
       {
         test: /\.(png|jpe?g|gif|svg|eot|ttf)$/,
         loader: 'url-loader',
-      }
-    ]
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({

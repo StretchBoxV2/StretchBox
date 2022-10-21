@@ -1,22 +1,39 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './stylesheets/App.scss';
-import { PrivateRoutes } from './components/privateRoutes';
 import Home from './components/home';
 import Login from './components/login';
+import { Provider, useDispatch } from 'react-redux';
+import Header from './components/homeComponents/header';
+import { setUser, clearUser, setFavorites } from './reducers/userReducer';
 
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route element={<PrivateRoutes/>}>
-          <Route path='/' element={<Home/>} />  
-        </Route>
+  const dispatch = useDispatch();
 
-        <Route path='/login' element={<Login/>} />   
+  useEffect(() => {
+    fetch('/auth/login')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.username) {
+          dispatch(setUser({ username: data.username, _id: data._id }));
+          dispatch(setFavorites(data.favorites));
+        } else {
+          dispatch(clearUser());
+        }
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Login register={true} />} />
+        <Route path="/" element={<Home />} />
       </Routes>
-    </Router>
-  )     
-}
+    </>
+  );
+};
 
 export default App;
